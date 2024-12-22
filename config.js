@@ -21,7 +21,7 @@ global.devs = "2349133354644";
 global.sudo = process.env.SUDO || "2349133354644";
 global.owner = process.env.OWNER_NUMBER || "2349133354644";
 global.style = process.env.STYLE || "3";
-global.gdbye = process.env.GOODBYE || "false";
+global.gdbye = process.env.GOODBYE || "true";
 global.wlcm = process.env.WELCOME || "false";
 global.warncount = process.env.WARN_COUNT || 3;
 global.disablepm = process.env.DISABLE_PM || "false";
@@ -38,7 +38,7 @@ global.save_status_from = process.env.SAVE_STATUS_FROM || "";
 global.read_status_from = process.env.READ_STATUS_FROM || "2347013349642,234xxxxx";
 
 global.api_smd = "https://api-smd-1.vercel.app";
-global.scan = "https://x-bot-session.onrender.com/pair";
+global.scan = "https://x-bot-session-generator.onrender.com";
 
 global.SESSION_ID =
   process.env.SESSION_ID ||
@@ -48,10 +48,10 @@ module.exports = {
   HANDLERS: process.env.PREFIX || ".",
   BRANCH: process.env.BRANCH || "main",
   VERSION: process.env.VERSION || "1.0.0",
-  caption: process.env.CAPTION || "©-X-:bot",
-  author: process.env.PACK_AUTHER || "☠᭄𝕯𝖆𝖛𝖎𝖉✰࿐☠",
-  packname: process.env.PACK_NAME || "Sticker by",
-  botname: process.env.BOT_NAME || "-X-:bot",
+  caption: process.env.CAPTION || "©X-:bot",
+  author: process.env.PACK_AUTHER || "X-bot",
+  packname: process.env.PACK_NAME || "",
+  botname: process.env.BOT_NAME || "X-bot",
   ownername: process.env.OWNER_NAME || "-X-",
   errorChat: process.env.ERROR_CHAT || "",
   KOYEB_API: process.env.KOYEB_API || "false",

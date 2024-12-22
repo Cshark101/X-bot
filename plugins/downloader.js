@@ -67,6 +67,141 @@ const path = require ("path");
 );
 smd(
   {
+    pattern: "ipstalk",
+    desc: "Get information about an IP address.",
+    category: "stalker",
+    filename: __filename,
+    use: "<ip_address>",
+  },
+  async (m, ipAddress) => {
+    try {
+      if (!ipAddress) {
+        return await m.send("*_Please provide an IP address!_*");
+      }
+
+      const apiUrl = `https://bk9.fun/stalk/ip?q=${encodeURIComponent(
+        ipAddress
+      )}`;
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        return await m.send(
+          `*_Error: ${response.status} ${response.statusText}_*`
+        );
+      }
+
+      const data = await response.json();
+
+      if (data.status !== true) {
+        return await m.send("*_An error occurred while fetching the data._*");
+      }
+
+      const {
+        continent,
+        country,
+        countryCode,
+        regionName,
+        city,
+        zip,
+        lat,
+        lon,
+        timezone,
+        currency,
+        isp,
+        org,
+        as,
+        reverse,
+        mobile,
+        proxy,
+        hosting,
+        ip,
+      } = data.BK9;
+
+      const caption = `
+*IP Address Information*
+
+*IP Address:* ${ip}
+*Reverse DNS:* ${reverse}
+*Continent:* ${continent}
+*Country:* ${country} (${countryCode})
+*Region:* ${regionName}
+*City:* ${city}
+*ZIP Code:* ${zip}
+*Latitude:* ${lat}
+*Longitude:* ${lon}
+*Timezone:* ${timezone}
+*Currency:* ${currency}
+*ISP:* ${isp}
+*Organization:* ${org}
+*AS:* ${as}
+*Mobile:* ${mobile ? "Yes" : "No"}
+*Proxy:* ${proxy ? "Yes" : "No"}
+*Hosting:* ${hosting ? "Yes" : "No"}
+`;
+
+      await m.send(caption);
+    } catch (e) {
+      await m.error(`${e}\n\ncommand: ipstalk`, e);
+    }
+  }
+);
+smd(
+  {
+    pattern: "tkstalk",
+    desc: "Get information about a Tiktok user.",
+    category: "stalker",
+    filename: __filename,
+    use: "<username>",
+  },
+  async (m, username) => {
+    try {
+      if (!username) {
+        return await m.send("*_Please provide a valid tiktok username!_*");
+      }
+
+      const apiUrl = `https://bk9.fun/stalk/tiktok?q=${encodeURIComponent(username)}`;
+      const response = await axios.get(apiUrl);
+
+      if (response.data.status !== true) {
+        return await m.send(
+          `*_Error: ${response.data.code} ${response.data.message || "Unknown error"}_*`
+        );
+      }
+
+      const {
+        profile,
+        username: tkUsername,
+        name,
+        bio,
+        likes,
+        followers,
+        following,
+        desc
+      } = response.data.BK9;
+
+      const caption = `
+*Tiktok User Information*
+
+*Username:* ${username}
+*Name:* ${name}
+*Bio:* ${bio || "NO BIO"}
+
+*Likes:* ${likes}
+*Followers:* ${followers}
+*Following:* ${following}
+*Description:* ${desc}
+
+\t*-X-:bot TK STALKER*
+`;
+
+      await m.send(caption);
+    } catch (e) {
+      await m.error(`${e}\n\ncommand: tkstalk`, e);
+    }
+  }
+);
+smd(
+  {
     pattern: "igstalk",
     desc: "Get information about an Instagram user.",
     category: "stalker",
@@ -743,15 +878,15 @@ smd({
     const videoUrl = _0x4ec99f; // Tiktok video URL
 
     // Call the Tiktok downloader API
-    const apiUrl = `https://itzpire.com/download/tiktok?url=${encodeURIComponent(videoUrl)}&type=v2`;
+    const apiUrl = `https://api.dreaded.site/api/tiktok?url=${encodeURIComponent(videoUrl)}`;
 
     const response = await axios.get(apiUrl);
-    const data = response.data;
+    const data = response.tiktok;
 
     console.log("API Response:", data); // Log the API response for debugging
 
-    if (data.status === "success" && data.data.video) {
-      const videoDownloadUrl = data.data.video; // Extract the video URL from the 'Video' field
+    if (data.status !== 200 && data.tiktok.video) {
+      const videoDownloadUrl = data.tiktok.video; // Extract the video URL from the 'Video' field
 
       // Download the video file
       const videoResponse = await axios({
@@ -797,7 +932,7 @@ smd({
 });
 smd({
   pattern: "tokdl", // Command name remains 'fb'
-  alias: ["tkdl"],
+  alias: ["tkvidl"],
   desc: "Downloads video from a Tiktok link.",
   category: "downloader",
   filename: __filename,
@@ -811,15 +946,15 @@ smd({
     const videoUrl = _0x4ec99f; // Tiktok video URL
 
     // Call the Tiktok downloader API
-    const apiUrl = `https://api.giftedtech.my.id/api/download/tiktokdlv1?apikey=gifted&url=${encodeURIComponent(videoUrl)}`;
+    const apiUrl = `https://api.fgmods.xyz/api/downloader/tiktok?url=${encodeURIComponent(videoUrl)}&apikey=g5PtmjBW`;
 
     const response = await axios.get(apiUrl);
     const data = response.result;
 
     console.log("API Response:", data); // Log the API response for debugging
 
-    if (data.status !== 200 && data.video.noWatermark) {
-      const videoDownloadUrl = data.video.noWatermark; // Extract the video URL from the 'Video' field
+    if (data.code !== 200 && data.result.play) {
+      const videoDownloadUrl = data.result.play; // Extract the video URL from the 'Video' field
 
       // Download the video file
       const videoResponse = await axios({
@@ -863,6 +998,7 @@ smd({
     return _0x2c2023.error(_0x86b411 + "\n\ncommand: tiktokdl2", _0x86b411, "*_Error occurred while processing the command!!_*");
   }
 });
+
  smd({
    pattern: "ytdoc",
    alias: ["ytd"],
@@ -912,7 +1048,7 @@ smd({
          url: _0x59bbaa
        },
        mimetype: "audio/mpeg",
-       fileName: "X-bot-Md--" + _0x1d542b[1] + ".mp3",
+       fileName: "X-bot-Md" + _0x1d542b[1] + ".mp3",
        caption: Config.caption,
        contextInfo: _0x10e2fa
      };

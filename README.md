@@ -1,7 +1,7 @@
 # 🌟 X-bot 🌟
 
 <p align="center">
-  <img src="https://d.uguu.se/RwLaCVBz.jpg" alt="X-bot Banner" width="450" style="border-radius: 15px;"/>
+  <img src="https://files.catbox.moe/ldv7px.jpg" alt="X-bot Banner" width="450" style="border-radius: 15px;"/>
 </p>
 
 <p align="center">
@@ -24,11 +24,11 @@ Get started with X-bot quickly! Choose your preferred deployment method:
 
 ### 🔑 ２．ＧＥＴ ＳＥＳＳＩＯＮ ＩＤ
 - **Pair Code**: 
-  <a href="https://x-bot-session.onrender.com/pair">
+  <a href="https://x-bot-session-generator.onrender.com/pair">
     <img src="https://img.shields.io/badge/Pair_Code-1E90FF?style=for-the-badge" alt="Click Here to Get Pair-Code" width="120">
   </a>
 - **QR Code**: 
-  <a href="https://x-bot-session.onrender.com/wasiqr">
+  <a href="https://x-bot-session-generator.onrender.com/qr">
     <img src="https://img.shields.io/badge/QR_Code-32CD32?style=for-the-badge" alt="Click Here to Get QR-Code" width="100">
   </a>
 

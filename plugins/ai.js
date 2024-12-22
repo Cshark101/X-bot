@@ -54,6 +54,81 @@ smd(
     }
   }
 );
+smd(
+  {
+    pattern: "mgcsd",
+    react: "🖼️", // Changed command name to 'dale6'
+    desc: "Generate an AI photo from text prompt.",
+    category: "ai",
+    filename: __filename,
+    use: "<query>",
+  },
+  async (m, query) => {
+    try {
+      // Check if query is provided
+      if (!query) {
+        return await m.send("*_Please provide a prompt for the AI image generator!_*");
+      }
+
+      // Construct the API URL with the provided query
+      const apiUrl = `https://bk9.fun/ai/magicstudio?prompt=${encodeURIComponent(query)}`;
+      
+      // Fetch the response from the API
+      const response = await fetch(apiUrl);
+
+      // Check if the response is not OK
+      if (!response.ok) {
+        return await m.send(`*_Error: ${response.status} ${response.statusText}_*`);
+      }
+
+      // Get the content type of the response
+      const contentType = response.headers.get('content-type');
+
+      if (contentType && contentType.startsWith('image')) {
+        // If the response is an image, get the image URL
+        const photoUrl = response.url;
+
+        // Send the photo to the user
+        await m.bot.sendFromUrl(
+          m.from,
+          photoUrl,
+          "*Made by -X-:bot*:",
+          m,
+          {},
+          "image"
+        );
+      } else if (contentType && contentType.includes('application/json')) {
+        // If the response is JSON, parse it
+        const data = await response.json();
+
+        // Check if the status in the response data is not 200
+        if (data.status !== 200) {
+          return await m.send("*_An error occurred while fetching the data._*");
+        }
+
+        // Get the photo URL from the response data
+        const photoUrl = data.BK9;
+
+        // Send the photo to the user
+        await m.bot.sendFromUrl(
+          m.from,
+          photoUrl,
+          "*Made by -X-:bot*:",
+          m,
+          {},
+          "image"
+        );
+      } else {
+        // Handle unexpected content types
+        return await m.send("*_Unexpected content type received from the API._*");
+      }
+    } catch (e) {
+      // Log the error and send an error message to the user
+      console.error(e);
+      await m.error(`${e}\n\ncommand: magicstudio`, e);
+    }
+  }
+);
     smd(
   {
     pattern: "bing",
@@ -97,6 +172,95 @@ smd(
     }
   }
 );
+smd(
+  {
+    pattern: "xgpt",
+    react: "🗿",
+    desc: "Get a response from X AI based on user query.",
+    category: "ai",
+    filename: __filename,
+  },
+  async (m) => {
+    try {
+      // Extract the query from the message
+      const query = m.text.split(' ').slice(1).join(' ');
+      if (!query) {
+        return await m.send("Please provide a query, e.g., `.xgpt What is the weather today?`.");
+      }
+
+      // Send a loading message
+      await m.send("processing.....");
+
+      // Define the new API URL
+      const apiUrl = `https://bk9.fun/ai/BK9?BK9=you%20are%20x%20made%20by%20David&q=${encodeURIComponent(query)}&model=gpt-4o`;
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        return await m.send(
+          `*_Error: ${response.status} ${response.statusText}_*`
+        );
+      }
+
+      // Wait for 2 seconds
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Get the result from the API response
+      const data = await response.json();
+      const resultText = data.BK9; // Extract the text from the result part
+      const message = `*Response:* \n\n${resultText}`;
+
+      // Send the final response
+      await m.send(message);
+    } catch (e) {
+      await m.error(`${e}\n\ncommand: dave-ai`, e);
+    }
+  }
+);
+smd(
+  {
+    pattern: "jeeves",
+    react: "📡",
+    desc: "Get a response from Jeeves AI based on user query.",
+    category: "ai",
+    filename: __filename,
+  },
+  async (m) => {
+    try {
+      // Extract the query from the message
+      const query = m.text.split(' ').slice(1).join(' ');
+      if (!query) {
+        return await m.send("Please provide a query, e.g., `.jeeves What is the meaning of life?`.");
+      }
+
+      // Send a loading message
+      await m.send("processing......");
+
+      // Define the new API URL
+      const apiUrl = `https://bk9.fun/ai/jeeves-chat2?q=${encodeURIComponent(query)}`;
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        return await m.send(
+          `*_Error: ${response.status} ${response.statusText}_*`
+        );
+      }
+
+      // Wait for 2 seconds
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Get the result from the API response
+      const data = await response.json();
+      const resultText = data.BK9; // Extract the text from the result part
+      const message = `*Response:* \n\n${resultText}`;
+
+      // Send the final response
+      await m.send(message);
+    } catch (e) {
+      await m.error(`${e}\n\ncommand: jeeves`, e);
+    }
+  }
+);
+
 
 smd(
   {
@@ -306,6 +470,49 @@ smd(
 );
 smd(
   {
+    pattern: "aoyo",
+    desc: "Get a response from aoyo AI based on user query.",
+    category: "ai",
+    filename: __filename,
+  },
+  async (m) => {
+    try {
+      // Extract the query from the message
+      const query = m.text.split(' ').slice(1).join(' ');
+      if (!query) {
+        return await m.send("Please provide a query, e.g., `.aoyo who is Naruto?`.");
+      }
+
+      // Send a loading message
+      await m.send("Relax, almost there.....");
+
+      // Define the new API URL
+      const apiUrl = `https://bk9.fun/ai/Aoyo?q=${encodeURIComponent(query)}`;
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        return await m.send(
+          `*_Error: ${response.status} ${response.statusText}_*`
+        );
+      }
+
+      // Wait for 2 seconds
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Get the result from the API response
+      const data = await response.json();
+      const resultText = data.BK9; // Extract the text from the result part
+      const message = `*Response:* \n\n${resultText}`;
+
+      // Send the final response
+      await m.send(message);
+    } catch (e) {
+      await m.error(`${e}\n\ncommand: ayoyo`, e);
+    }
+  }
+);
+smd(
+  {
     pattern: "lumin",
     react: "📡",
     desc: "Get a response from Lumine AI based on user query.",
@@ -350,6 +557,50 @@ smd(
 );
 smd(
   {
+    pattern: "llama",
+    react: "📡",
+    desc: "Get a response from Llama AI based on user query.",
+    category: "ai",
+    filename: __filename,
+  },
+  async (m) => {
+    try {
+      // Extract the query from the message
+      const query = m.text.split(' ').slice(1).join(' ');
+      if (!query) {
+        return await m.send("Please provide a query, e.g., `.llama What is the weather today?`.");
+      }
+
+      // Send a loading message
+      await m.send("processing.....");
+
+      // Define the new API URL
+      const apiUrl = `https://bk9.fun/ai/llama?q=${encodeURIComponent(query)}`;
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        return await m.send(
+          `*_Error: ${response.status} ${response.statusText}_*`
+        );
+      }
+
+      // Wait for 2 seconds
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Get the result from the API response
+      const data = await response.json();
+      const resultText = data.BK9; // Extract the text from the result part
+      const message = `*Response:* \n\n${resultText}`;
+
+      // Send the final response
+      await m.send(message);
+    } catch (e) {
+      await m.error(`${e}\n\ncommand: llama`, e);
+    }
+  }
+);
+smd(
+  {
     pattern: "gemini",
     react: "📡",
     desc: "Get a response from Gemini AI based on user query.",
@@ -368,7 +619,7 @@ smd(
       await m.send("processing.....");
 
       // Define the new API URL
-      const apiUrl = `https://api.giftedtech.my.id/api/ai/geminiaipro?apikey=gifted&q=${encodeURIComponent(query)}`;
+      const apiUrl = `https://bk9.fun/ai/acloudai?q=${encodeURIComponent(query)}`;
       const response = await fetch(apiUrl);
 
       if (!response.ok) {
@@ -382,7 +633,7 @@ smd(
 
       // Get the result from the API response
       const data = await response.json();
-      const resultText = data.result; // Extract the text from the result part
+      const resultText = data.BK9; // Extract the text from the result part
       const message = `*Response:* \n\n${resultText}`;
 
       // Send the final response
@@ -1051,7 +1302,7 @@ smd(
       await m.send("Processing......");
 
       // Define the API URL
-      const apiUrl = `https://itzpire.com/ai/blackbox-ai?q=${encodeURIComponent(query)}`;
+      const apiUrl = `https://bk9.fun/ai/blackbox?q=${encodeURIComponent(query)}`;
       const response = await fetch(apiUrl);
 
       if (!response.ok) {
@@ -1065,7 +1316,7 @@ smd(
 
       // Get the result from the API response
       const data = await response.json();
-      const resultText = data.result; // Extract the text from the result part
+      const resultText = data.BK9; // Extract the text from the result part
       const message = `*Response:* \n\n${resultText}`;
 
       // Send the final response
